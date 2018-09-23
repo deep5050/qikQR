@@ -9,3 +9,5 @@ minimal desktop app to creat and read QR codes.
 ![image](https://user-images.githubusercontent.com/27947066/45924869-46aadd00-bf28-11e8-9fba-47502a57dd7f.png)
 ![image](https://user-images.githubusercontent.com/27947066/45924881-5a564380-bf28-11e8-824c-eaf2795183f4.png)
 ![image](https://user-images.githubusercontent.com/27947066/45924884-604c2480-bf28-11e8-8c7f-c7ef3f4d826f.png)
+![image](https://user-images.githubusercontent.com/27947066/45924913-df415d00-bf28-11e8-98df-54d5371c809c.png)
+![image](https://user-images.githubusercontent.com/27947066/45924916-f1230000-bf28-11e8-83c2-09ca26443be6.png)
