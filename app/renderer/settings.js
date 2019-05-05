@@ -1,3 +1,5 @@
+//FIXME const { writeSettings } = require("./writeSettings.js");
+
 const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer;
 var shell = require('electron').shell;
@@ -6,6 +8,7 @@ var fs = require('fs');
 var app = require('electron').remote.app;
 var maxSize = 1000;
 
+
 var defaultParameters = {
   data: "",
   size: "300",
@@ -13,7 +16,8 @@ var defaultParameters = {
   color: "000",
   bgcolor: "fff",
   format: "jpg"
-}
+};
+//exports.defaultParameters = defaultParameters;
 
 var parameters = {
   data: "",
@@ -22,11 +26,33 @@ var parameters = {
   color: "000",
   bgcolor: "fff",
   format: "jpg"
-}
+};
 
 
 
 
+function writeSettings(obj) {
+  ipcRenderer.send("logger","settngs: writing");
+    var sizeInput = $('#size').val();
+    if (sizeInput != "" || sizeInput != null || sizeInput <= maxSize) {
+      if (sizeInput < 100) {
+        parameters.size = defaultParameters.size;
+        console.log("rounded");
+      }
+      else {
+        parameters.size = sizeInput;
+        console.log("ok");
+      }
+    }
+    else
+      parameters.size = defaultParameters.size;
+    if (obj.size > maxSize)
+      obj.size = maxSize;
+    var dataToWrite = JSON.stringify(obj);
+    fs.writeFileSync('./settings.json', dataToWrite);
+    console.log("saved.." + dataToWrite);
+    return;
+  }
 
 $(document).ready(function () {
   $('#close-button').on('click', e => {
@@ -139,7 +165,7 @@ $(document).ready(function () {
 
   $("#size").keyup(function (event) {
     // If button pressed was ENTER
-    console.log("entered");
+   
     if (event.keyCode === 13) {
       var sizeInput = $('#size').val();
       if (sizeInput != "" || sizeInput != null || sizeInput <= maxSize) {
@@ -156,30 +182,24 @@ $(document).ready(function () {
 
   $('#default').on('click', function () {
     parameters = defaultParameters;
-    wrtiteSettings(defaultParameters);
+    writeSettings(defaultParameters);
+      setTimeout(function() {
+        ipcRenderer.send("logger","settings: save button clicked");
+    ipcRenderer.send("logger","settings: config updated");
+}, 1000);
   });
 
   $('#save').on('click', function () {
-    wrtiteSettings(parameters);
+  
+    
+    writeSettings(parameters);
+
+    // wait for some time to write the file
+    setTimeout(function() {
+      ipcRenderer.send("logger","settings: save button clicked");
+    ipcRenderer.send("logger","settings: config updated");
+}, 1000);
   });
 });
 
 
-function wrtiteSettings(obj) {
-  var sizeInput = $('#size').val();
-  if (sizeInput != "" || sizeInput != null || sizeInput <= maxSize) {
-    if (sizeInput < 100) {
-      parameters.size = defaultParameters.size;
-      console.log("rounded");
-    } else {
-      parameters.size = sizeInput;
-      console.log("ok");
-    }
-  } else parameters.size = defaultParameters.size;
-
-  if (obj.size > maxSize) obj.size = maxSize;
-  var dataToWrite = JSON.stringify(obj);
-  fs.writeFileSync('./settings.json', dataToWrite);
-  console.log("saved.." + dataToWrite);
-  return;
-}

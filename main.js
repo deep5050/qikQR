@@ -1,4 +1,14 @@
 const electron = require('electron');
+
+// for hot reload
+// require('electron-reload')(__dirname);
+
+
+
+
+
+// pretty logger
+const logger = require('electron-timber');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -6,7 +16,7 @@ const BrowserWindow = electron.BrowserWindow;
 
 path = require('path');
 const url = require('url');
-const autoUpdater = require("electron-updater").autoUpdater;
+//const autoUpdater = require("electron-updater").autoUpdater;
 const {ipcMain} = require('electron');
 
 
@@ -19,7 +29,7 @@ let mainWindow; // this will store the window object
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    title: "gSubs",
+    title: "qikQR",
     width: 344,
     height: 540,
     resizable: true,
@@ -44,7 +54,7 @@ function createWindow() {
   });
 
   // Open the DevTools.
- mainWindow.webContents.openDevTools();
+ //mainWindow.webContents.openDevTools();
 
 }
 
@@ -53,8 +63,11 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 
 app.on('ready', function() {
+  // NOTE  for development purpose electron process GUI
+  const { openProcessManager } = require('electron-process-manager');
+openProcessManager();
   createWindow();
-  console.log('log message');
+ logger.log("logging started..");
   //autoUpdater.checkForUpdates();
 });
 
@@ -79,6 +92,7 @@ app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
+    logger.warn("app going to Quit");
     app.quit();
   }
 });
@@ -90,6 +104,24 @@ app.on('activate', function () {
     createWindow();
   }
 });
+
+ipcMain.on("update the settings config",(event, arg)=>{
+  logger.log("new configuration set by user which need to be updated ");
+  mainWindow.webContents.send("update config","update");
+  
+});
+ipcMain.on("logger",(event,arg)=>{
+  logger.log(arg);
+  if(arg == "settings: save button clicked")
+  {
+    mainWindow.webContents.send("update-config","true");
+    logger.log("sent to renderer to update the config-data");
+  }
+});
+
+ipcMain.on("logger-error",(event,arg)=>{
+  logger.error(arg);
+})
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

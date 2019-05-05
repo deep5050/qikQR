@@ -9,9 +9,26 @@ var request = require('request');
 const url = require('url');
 var path = require('path');
 var broserWindow = require('electron').remote.BrowserWindow;
-var parameters;
+var parameters = readSettings();
 var saveLocation = os.homedir + '\\';
 var settingsWindowVisible = 0;
+const logger = require('electron-timber');
+
+
+
+
+
+function readSettings() {
+   var temp = JSON.parse(fs.readFileSync('./settings.json'));
+  return temp;
+  ipcRenderer.send("logger","index: config-updated");
+}
+
+
+
+
+
+
 console.log(saveLocation);
 $(document).ready(function () {
   $('body').transition('scale');
@@ -141,6 +158,8 @@ $(document).ready(function () {
 });
 
 $('#close-button').on('click', e => {
+  logger.warn("close button clicked");
+  
   app.quit();
 });
 var lastFileName;
@@ -186,6 +205,8 @@ function createSettingsWindow()
 $("#settings-button-id").on('click', function () {
   if (settingsWindowVisible == 0) {
     createSettingsWindow();
+    
+
   } else
     try {
       settingsWindow.show();
@@ -194,14 +215,11 @@ $("#settings-button-id").on('click', function () {
     }
    
 
- // settingsWindow.webContents.openDevTools();
+
 
 })
 
-function readSettings() {
-  parameters = JSON.parse(fs.readFileSync('./settings.json'));
-  return;
-}
+
 
 
 $('#home-button').on('click', function () {
@@ -220,7 +238,7 @@ $('#home-button').on('click', function () {
   $(".main-window").css("background-attachment", "fixed");
   $(".main-window").css("background-size", "contain");
   // $(".main-window").css("background-size","cover");
-  console.log("home button clicked");
+  logger.log("home button clicked");
   $('.zone').show();
   $('#qr-output').remove();
   $('#result-qr').hide();
@@ -234,17 +252,32 @@ $('#home-button').on('click', function () {
 
 });
 var file;
+// read at least once
+ipcRenderer.send("logger","index: read for the first time");
+readSettings();
 
+ipcRenderer.on("update config",(event, message)=>{
+  logger.warn(message);
+});
+
+ipcRenderer.on("update-config",(event,message)=>{
+  // Anchor 
+  parameters = readSettings();
+    ipcRenderer.send("logger","index: i will update now");
+
+})
 function textToQR(txt) {
   loadSearchPage();
   if (txt == '' || txt == null) return;
-  readSettings();
+  
   parameters.data = txt;
-  console.log(parameters.data);
+  ipcRenderer.send("logger","index:"+ parameters.data);
+  //console.log(parameters.data);
   var reqURL = "https://api.qrserver.com/v1/create-qr-code/?" + "data=" + parameters.data + "&size=" + parameters.size + "x" + parameters.size + "&ecc=" + parameters.ecc + "&color=" + parameters.color + "&bgcolor=" + parameters.bgcolor + "&format=" + parameters.format;
-  console.log(reqURL);
+  ipcRenderer.send("logger","index:" + "URL" + reqURL);
   request(reqURL)
     .on('error', function (err) {
+      ipcRenderer.send("logger-error","index: error occured");
       showErrorPage();
     })
     .on('response', function (response) {
@@ -253,6 +286,7 @@ function textToQR(txt) {
           autoClose: true
         });
         response.pipe(file);
+        ipcRenderer.send("logger","index: success and file created");
         showSuccessPage(txt, file);
       }
     })
@@ -299,7 +333,7 @@ function showSuccessPage(txt, file) {
     $('#logo-here').append(qrOutput);
 
     $('#attention').hide();
-    console.log("created again");
+   
   });
 
 }
