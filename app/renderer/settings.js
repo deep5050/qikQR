@@ -9,6 +9,8 @@ var app = require('electron').remote.app;
 var maxSize = 1000;
 
 
+
+
 var defaultParameters = {
   data: "",
   size: "300",
@@ -189,6 +191,13 @@ $(document).ready(function () {
 }, 1000);
   });
 
+
+  $('#bug').on('click',function (){
+    shell.openExternal("https://github.com/deep5050/qikQR/issues");
+  })
+  $('#heart').on('click',function (){
+    shell.openExternal("https://www.paypal.me/deep5050");
+  })
   $('#save').on('click', function () {
   
     

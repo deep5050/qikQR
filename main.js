@@ -1,7 +1,7 @@
 const electron = require('electron');
 
 // for hot reload
-// require('electron-reload')(__dirname);
+//require('electron-reload')(__dirname);
 
 
 
@@ -121,7 +121,11 @@ ipcMain.on("logger",(event,arg)=>{
 
 ipcMain.on("logger-error",(event,arg)=>{
   logger.error(arg);
-})
+});
+
+ipcMain.on("logger-warn",(event,arg)=>{
+  logger.warn(arg);
+});
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

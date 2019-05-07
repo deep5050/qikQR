@@ -1,5 +1,5 @@
 {
-  "name": "gsubs",
+  "name": "qikqr",
   "version": "1.0.0",
   "description": "Finds you the perfect subtitle match",
   "main": "main.js",
@@ -9,16 +9,15 @@
     "pack": "build --dir",
     "dist": "build -w --config"
   },
-  "repository": "https://github.com/sanjevirau/gsubs",
-  "homepage": "https://cholaware.com/gsubs",
+  "repository": "https://github.com/deep5050/qikQR",
+  "homepage": "https://deep5050.github.io/qikQR",
   "keywords": [
-    "gsubs",
-    "subtitle finder",
-    "movie subtitle",
-    "series subtitle",
-    "subtitle searcher"
+    "qilQR",
+    "QR code creator",
+    "qr code",
+    "quick response code"
   ],
-  "author": "Cholaware",
+  "author": "deep5050",
   "license": "MIT",
   "devDependencies": {
     "electron": "~1.8.2",
@@ -31,9 +30,6 @@
     "electron-process-manager": "^0.7.1",
     "electron-reload": "^1.4.0",
     "electron-timber": "^0.5.1",
-    "electron-updater": "^2.21.1",
-    "jquery": "^3.3.1",
-    "opensubtitles-api": "^4.0.0",
-    "subdb": "0.0.3"
+    "jquery": "^3.3.1"
   }
 }

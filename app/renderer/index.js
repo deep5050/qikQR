@@ -1,5 +1,8 @@
+// const log = require("./makelog");
+
 const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer;
+
 var shell = require('electron').shell;
 var $ = require('jquery');
 var fs = require('fs');
@@ -11,32 +14,35 @@ var path = require('path');
 var broserWindow = require('electron').remote.BrowserWindow;
 var parameters = readSettings();
 var saveLocation = os.homedir + '\\';
+if(os.platform =="linux") saveLocation = os.homedir + '/';
 var settingsWindowVisible = 0;
 const logger = require('electron-timber');
 
 
 
-
+function makelog(mssg, id = "logger") {
+  if (id == "warn")
+    id = "logger-warn";
+  if (id == "error")
+    id = "logger-error";
+  ipcRenderer.send(id, mssg);
+}
 
 function readSettings() {
    var temp = JSON.parse(fs.readFileSync('./settings.json'));
-  return temp;
   ipcRenderer.send("logger","index: config-updated");
+  return temp;
 }
 
 
-
-
-
-
-console.log(saveLocation);
+makelog(saveLocation);
 $(document).ready(function () {
   $('body').transition('scale');
   $('#qr-text-input').focus();
   // $('body').on('keyup', function ()
   // {
   //   $('#qr-text-input').focus();
-  //   console.log('*');
+  //   makelog('*');
   // })
   $('.special.cards .image').dimmer({
     on: 'hover'
@@ -50,8 +56,8 @@ $(document).ready(function () {
   $('.zone').dmUploader({ 
     maxFileSize: 1000000, //1mb
     multiple: false,
-    allowedTypes: 'image/*',
-    extFilter: ['jpg','jpeg','png','gif'],
+    allowedTypes: '*',
+    extFilter: ['txt','json','xml','md'],
     onDragEnter: function () {
       $('#loading-id').show();
       $('#drag-caption-id').hide();
@@ -59,7 +65,7 @@ $(document).ready(function () {
 
       // Happens when dragging something over the DnD area
       handleDragEvents('info',"Release to upload");
-      console.log("drag enter");
+      makelog("drag enter");
       
     },
     onDragLeave: function () {
@@ -68,53 +74,70 @@ $(document).ready(function () {
 
       $('.zone').css('border-radius', '0%');
       handleDragEvents('info',"");
-      console.log("drag leave");
+      makelog("drag leave");
     },
     onInit: function(){
       // Plugin is ready to use
-      console.log("drag init");
+      makelog("drag init");
     },
     onComplete: function(){
       // All files in the queue are processed (success or error)
       handleDragEvents('info',"");
-      console.log("finish");
+      makelog("finish");
     },
     onNewFile: function(id, file){
       // When a new file is added using the file selector or the DnD area
- 
-      console.log("new "+id);
+ $
+      makelog("new "+id);
 
       if (typeof FileReader !== "undefined"){
         var reader = new FileReader();
-        var img = this.find('img');
+        // var _data = this.find('*');
         
-        reader.onload = function (e) {
-          img.attr('src', e.target.result);
+        // reader.onload = function (e) {
+        //   _data.attr('src', e.target.result);
+        // }
+        // alert(file.path);
+      
+        // makelog(reader.readAsText(file));
+        var fileName = file.name;
+        makelog(fileName);
+  
+        if(/.txt/.test(fileName) ||/.json/.test(fileName) || /.xml/.test(fileName) )
+        {
+          //alert("its a text file");
+          var txtdata = fs.readFileSync(file.path);
+          textToQR(txtdata);
+          return;
         }
-        reader.readAsDataURL(file);
+        else{
+          handleDragEvents("error", "it will support image files very soon :")
+        }
       }
+     
     },
     onBeforeUpload: function(id){
       // about tho start uploading a file
-      console.log("starting upload....");
+      // makelog("starting upload....");
       // ui_single_update_progress(this, 0, true);      
       // ui_single_update_active(this, true);
 
       // ui_single_update_status(this, 'Uploading...');
     },
     onUploadProgress: function (id, percent) {
-      handleDragEvents('info',"Uploading the file .."+percent+"%");
-      // Updating file progress
-      // ui_single_update_progress(this, percent);
-      console.log("upload in progress....");
-     // loadSearchPage();
+    //   handleDragEvents('info',"Uploading the file .."+percent+"%");
+    //   // Updating file progress
+    //   // ui_single_update_progress(this, percent);
+    //   makelog("upload in progress....");
+    //  // loadSearchPage();
     },
     onUploadSuccess: function(id, data){
-      var response = JSON.stringify(data);
-      handleDragEvents('info',"Successfully uploaded");
+      // var response = JSON.stringify(data);
+      // handleDragEvents('info',"Successfully uploaded");
 
       // A file was successfully uploaded
-      console.log("successfully uploaded...");
+      makelog("successfully uploaded...");
+      
      // showSuccessPage();
 
       // ui_single_update_active(this, false);
@@ -126,30 +149,30 @@ $(document).ready(function () {
     },
     onUploadError: function(id, xhr, status, message){
       // Happens when an upload error happens
-      console.log(this, false);
+      makelog(this, false);
       // ui_single_update_status(this, 'Error: ' + message, 'danger');
     },
     onFallbackMode: function(){
       // When the browser doesn't support this plugin :(
-      console.log('Plugin cant be used here, running Fallback callback');
+      makelog('Plugin cant be used here, running Fallback callback');
     },
     onFileSizeError: function (file) {
       handleDragEvents('error',"File size exceeds 1MB");
-      console.log(this, 'File excess the size limit', 'danger');
+      makelog(this, 'File excess the size limit', 'danger');
 
-      console.log('File \'' + file.name + '\' cannot be added: size excess limit');
+      makelog('File \'' + file.name + '\' cannot be added: size excess limit');
     },
     onFileTypeError: function (file) {
-      handleDragEvents('error',file.name+" is not an image");
+      handleDragEvents('error',file.name+" is not a text file");
       // ui_single_update_status(this, 'File type is not an image', 'danger');
 
-      console.log('File \'' + file.name + '\' cannot be added: must be an image (type error)');
+      makelog('File \'' + file.name + '\' cannot be added: must be an image (type error)');
     },
     onFileExtError: function (file) {
-      handleDragEvents('error',file.name+" is not an image");
+      handleDragEvents('error',file.name+" is not a valid text file");
       // ui_single_update_status(this, 'File extension not allowed', 'danger');
 
-      console.log('File \'' + file.name + '\' cannot be added: must be an image (extension error)');
+      makelog('File \'' + file.name + '\' cannot be added: must be an image or a text file (extension error)');
      // showErrorPage();
     }
   });
@@ -174,7 +197,7 @@ $('#save-img').on('click', function () {
 
 $("#qr-text-input").keyup(function (event) {
   // If button pressed was ENTER
-  console.log("entered");
+  makelog("entered");
   if (event.keyCode === 13) {
     var qrTextInput = $('#qr-text-input').val();
     textToQR(qrTextInput);
@@ -272,7 +295,7 @@ function textToQR(txt) {
   
   parameters.data = txt;
   ipcRenderer.send("logger","index:"+ parameters.data);
-  //console.log(parameters.data);
+  //makelog(parameters.data);
   var reqURL = "https://api.qrserver.com/v1/create-qr-code/?" + "data=" + parameters.data + "&size=" + parameters.size + "x" + parameters.size + "&ecc=" + parameters.ecc + "&color=" + parameters.color + "&bgcolor=" + parameters.bgcolor + "&format=" + parameters.format;
   ipcRenderer.send("logger","index:" + "URL" + reqURL);
   request(reqURL)
@@ -293,9 +316,10 @@ function textToQR(txt) {
 }
 
 function loadSearchPage() {
+  $('.zone').hide();
   $('#result-qr').hide();
   $('#attention').hide();
-  $('.zone').hide();
+ 
   $('#loading-gif').show();
 }
 
@@ -311,22 +335,24 @@ function tokenGenerator() {
 }
 
 function showSuccessPage(txt, file) {
+  $('.zone').hide();
+  $(".fail-to-find-text").text("");
   //$(".main-window").css("background", "linear-gradient(to bottom,  #ADD372 0%, #8EC89F 85%,#77C0C0 100%)");
-  $('.main-window').css("background-color", "#91ffa9");
-  $(".main-window").css("background-image", `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='50' height='25' viewBox='0 0 50 25'%3E%3Cdefs%3E%3Crect stroke='%2388ff81' stroke-width='0.1' width='1' height='1' id='s'/%3E%3Cpattern id='a' width='2' height='2' patternUnits='userSpaceOnUse'%3E%3Cg stroke='%2388ff81' stroke-width='0.1'%3E%3Crect fill='%2385fa7e' width='1' height='1'/%3E%3Crect fill='%2388ff81' width='1' height='1' x='1' y='1'/%3E%3Crect fill='%2383f57c' width='1' height='1' y='1'/%3E%3Crect fill='%2380f079' width='1' height='1' x='1'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='b' width='5' height='11' patternUnits='userSpaceOnUse'%3E%3Cg fill='%237deb77'%3E%3Cuse xlink:href='%23s' x='2' y='0'/%3E%3Cuse xlink:href='%23s' x='4' y='1'/%3E%3Cuse xlink:href='%23s' x='1' y='2'/%3E%3Cuse xlink:href='%23s' x='2' y='4'/%3E%3Cuse xlink:href='%23s' x='4' y='6'/%3E%3Cuse xlink:href='%23s' x='0' y='8'/%3E%3Cuse xlink:href='%23s' x='3' y='9'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='c' width='7' height='7' patternUnits='userSpaceOnUse'%3E%3Cg fill='%237ae574'%3E%3Cuse xlink:href='%23s' x='1' y='1'/%3E%3Cuse xlink:href='%23s' x='3' y='4'/%3E%3Cuse xlink:href='%23s' x='5' y='6'/%3E%3Cuse xlink:href='%23s' x='0' y='3'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='d' width='11' height='5' patternUnits='userSpaceOnUse'%3E%3Cg fill='%2388ff81'%3E%3Cuse xlink:href='%23s' x='1' y='1'/%3E%3Cuse xlink:href='%23s' x='6' y='3'/%3E%3Cuse xlink:href='%23s' x='8' y='2'/%3E%3Cuse xlink:href='%23s' x='3' y='0'/%3E%3Cuse xlink:href='%23s' x='0' y='3'/%3E%3C/g%3E%3Cg fill='%2378e072'%3E%3Cuse xlink:href='%23s' x='8' y='3'/%3E%3Cuse xlink:href='%23s' x='4' y='2'/%3E%3Cuse xlink:href='%23s' x='5' y='4'/%3E%3Cuse xlink:href='%23s' x='10' y='0'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='e' width='47' height='23' patternUnits='userSpaceOnUse'%3E%3Cg fill='%232f2a1e'%3E%3Cuse xlink:href='%23s' x='2' y='5'/%3E%3Cuse xlink:href='%23s' x='23' y='13'/%3E%3Cuse xlink:href='%23s' x='4' y='18'/%3E%3Cuse xlink:href='%23s' x='35' y='9'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='f' width='61' height='31' patternUnits='userSpaceOnUse'%3E%3Cg fill='%232f2a1e'%3E%3Cuse xlink:href='%23s' x='16' y='0'/%3E%3Cuse xlink:href='%23s' x='13' y='22'/%3E%3Cuse xlink:href='%23s' x='44' y='15'/%3E%3Cuse xlink:href='%23s' x='12' y='11'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23a)' width='50' height='25'/%3E%3Crect fill='url(%23b)' width='50' height='25'/%3E%3Crect fill='url(%23c)' width='50' height='25'/%3E%3Crect fill='url(%23d)' width='50' height='25'/%3E%3Crect fill='url(%23e)' width='50' height='25'/%3E%3Crect fill='url(%23f)' width='50' height='25'/%3E%3C/svg%3E")`);
+ // $('.main-window').css("background-color", "#91ffa9");
+  //$(".main-window").css("background-image", `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='50' height='25' viewBox='0 0 50 25'%3E%3Cdefs%3E%3Crect stroke='%2388ff81' stroke-width='0.1' width='1' height='1' id='s'/%3E%3Cpattern id='a' width='2' height='2' patternUnits='userSpaceOnUse'%3E%3Cg stroke='%2388ff81' stroke-width='0.1'%3E%3Crect fill='%2385fa7e' width='1' height='1'/%3E%3Crect fill='%2388ff81' width='1' height='1' x='1' y='1'/%3E%3Crect fill='%2383f57c' width='1' height='1' y='1'/%3E%3Crect fill='%2380f079' width='1' height='1' x='1'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='b' width='5' height='11' patternUnits='userSpaceOnUse'%3E%3Cg fill='%237deb77'%3E%3Cuse xlink:href='%23s' x='2' y='0'/%3E%3Cuse xlink:href='%23s' x='4' y='1'/%3E%3Cuse xlink:href='%23s' x='1' y='2'/%3E%3Cuse xlink:href='%23s' x='2' y='4'/%3E%3Cuse xlink:href='%23s' x='4' y='6'/%3E%3Cuse xlink:href='%23s' x='0' y='8'/%3E%3Cuse xlink:href='%23s' x='3' y='9'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='c' width='7' height='7' patternUnits='userSpaceOnUse'%3E%3Cg fill='%237ae574'%3E%3Cuse xlink:href='%23s' x='1' y='1'/%3E%3Cuse xlink:href='%23s' x='3' y='4'/%3E%3Cuse xlink:href='%23s' x='5' y='6'/%3E%3Cuse xlink:href='%23s' x='0' y='3'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='d' width='11' height='5' patternUnits='userSpaceOnUse'%3E%3Cg fill='%2388ff81'%3E%3Cuse xlink:href='%23s' x='1' y='1'/%3E%3Cuse xlink:href='%23s' x='6' y='3'/%3E%3Cuse xlink:href='%23s' x='8' y='2'/%3E%3Cuse xlink:href='%23s' x='3' y='0'/%3E%3Cuse xlink:href='%23s' x='0' y='3'/%3E%3C/g%3E%3Cg fill='%2378e072'%3E%3Cuse xlink:href='%23s' x='8' y='3'/%3E%3Cuse xlink:href='%23s' x='4' y='2'/%3E%3Cuse xlink:href='%23s' x='5' y='4'/%3E%3Cuse xlink:href='%23s' x='10' y='0'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='e' width='47' height='23' patternUnits='userSpaceOnUse'%3E%3Cg fill='%232f2a1e'%3E%3Cuse xlink:href='%23s' x='2' y='5'/%3E%3Cuse xlink:href='%23s' x='23' y='13'/%3E%3Cuse xlink:href='%23s' x='4' y='18'/%3E%3Cuse xlink:href='%23s' x='35' y='9'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='f' width='61' height='31' patternUnits='userSpaceOnUse'%3E%3Cg fill='%232f2a1e'%3E%3Cuse xlink:href='%23s' x='16' y='0'/%3E%3Cuse xlink:href='%23s' x='13' y='22'/%3E%3Cuse xlink:href='%23s' x='44' y='15'/%3E%3Cuse xlink:href='%23s' x='12' y='11'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23a)' width='50' height='25'/%3E%3Crect fill='url(%23b)' width='50' height='25'/%3E%3Crect fill='url(%23c)' width='50' height='25'/%3E%3Crect fill='url(%23d)' width='50' height='25'/%3E%3Crect fill='url(%23e)' width='50' height='25'/%3E%3Crect fill='url(%23f)' width='50' height='25'/%3E%3C/svg%3E")`);
   $(".main-window").css("background-repeate", "repeat");
   $(".main-window").css("background-attachment", "fixed");
   $(".main-window").css("background-size", "cover");
 
   // $("#searching-sub-for-id").text('your QR code is here');
-  $('.zone').hide();
+  
   $("#loading-id").hide();
   $('#loading-gif').hide();
   $("#logo").attr("src", "../img/logo-g.svg");
   $('#result-qr').show();
   file.on('finish', function () {
     $('#qr-output').remove();
-    console.log("removed");
+    makelog("removed");
     var qrOutput = document.createElement('img');
     qrOutput.src = '../../output.'+parameters.format+'?' + tokenGenerator(); // to read different files with same name . ?randomnumber helps to force the browser to fetch the image file from directory instead of cache
     qrOutput.id = "qr-output";
@@ -377,3 +403,7 @@ function handleDragEvents(type, mssg)
     }
 
   }
+
+
+
+  module.exports.makelog = makelog;
