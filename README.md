@@ -47,7 +47,7 @@ SCREENSHOTS
 
 <p align="center">
 <div align="center" >
-Thanks To <a href="api.qrserver.com">  qrserver.com</a> For Providing The Data
+Thanks To <a href="https://api.qrserver.com">  qrserver.com</a> For Providing The Data
 </div>
 <div align="center" >
 UI inspiration  <a href="https://github.com/sanjevirau/gsubs">  gSubs</a> 
