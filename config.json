@@ -1,0 +1,11 @@
+{
+  "linux" : {
+    "arch" : 64,
+    "target" : "deb",
+    "version" : "1.0.0",
+    "title" : "qikQR",
+    "comment" : "A minimal QR code genrator app",
+    "executable" : "qikqr",
+    "maintainer": "dipankar pal <dipankarpal5050@gmail.com>"
+  }
+}

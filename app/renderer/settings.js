@@ -176,7 +176,7 @@ $(document).ready(function () {
           console.log("rounded");
         } else {
           parameters.size = sizeInput;
-          console.log("ok");
+          //console.log("ok");
         }
       } else parameters.size = defaultParameters.size;
     }
