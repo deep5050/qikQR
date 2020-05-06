@@ -1,4 +1,6 @@
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cfe5d42a4969494a9df163a2ac89c753)](https://app.codacy.com/manual/dipankarpal5050/qikQR?utm_source=github.com&utm_medium=referral&utm_content=deep5050/qikQR&utm_campaign=Badge_Grade_Settings)
+
 <h1 align="center" >
   <img  src="app/img/qikqr.png"  alt="qikQR Logo" draggable="false"><br>
 </h1>
