@@ -22,6 +22,8 @@
   <a href="https://github.com/sanjevirau/gsubs/issues" alt="Issues"><img src="https://img.shields.io/github/issues/deep5050/qikQR.svg" /></a>
   <a href="https://github.com/deep5050/qikQR/blob/master/LICENSE" alt="License"><img src="https://img.shields.io/github/license/deep5050/qikQR.svg" /></a>
   <a href="https://paypal.me/deep5050" alt="License"><img src="https://img.shields.io/badge/Donate-PayPal-green.svg" /></a>
+    <a href="https://gitpod.io/#https://github.com/deep5050/qikQR" alt="Gitpod"><img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" /></a>
+
   </p>
 </p>
 
