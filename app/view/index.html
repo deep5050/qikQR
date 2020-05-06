@@ -50,45 +50,30 @@
 
       <!-- Search box content -->
       <center>
-          <div id="search-box-div-id" class="search-box-div no-drag animated bounceInDown">
-              <span class="lnr lnr-magnifier search-icon-adjust"></span>
-              <input type="text" id="qr-text-input" class="search-box" placeholder="Type the text here ....">
-            </div>
+        <div id="search-box-div-id" class="search-box-div no-drag animated bounceInDown">
+          <span class="lnr lnr-magnifier search-icon-adjust"></span>
+          <input type="text" id="qr-text-input" class="search-box" placeholder="Type the text here ....">
+        </div>
       </center>
-      
+
       <center>
         <div id="fail-to-find-text-id" class="fail-to-find-text"></div>
       </center>
 
-      <div class="zone no-drag animated zoomInUp" id="dropzone">
-        <div id="drop-area">
-            <form class="dropzone needsclick" id="qrupload" action="/upload"></form>
-          <!-- Initial caption of drop zone -->
-          <div id="drag-caption-id" class="drag-caption">Drop any text file here</div>
 
-          <!-- Number of files being dragged -->
-          <!-- <div id="drag-caption-id-add-one" class="drag-caption-add-one">release to upload</div> -->
-
-          <!-- Four dots loader screen -->
-          <p id="loading-id" class="loading" style="color:white">
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
-          </p>
-        </div>
-      </div>
       <br>
       <br>
+   <img style="margin-top:-10px;" src="../img/qikqr.png" alt="">
+  </div>
       <div class="ui special cards centered" id="result-qr">
         <div class="card">
           <div class="blurring dimmable image" id="logo-here">
             <div class="ui dimmer">
               <div class="content">
                 <div class="center">
-                  <!-- <div class="ui button">SAVE</div> -->
-                  <button class="ui inverted button primary" id="save-img"><span class="lnr lnr-download"></span></button>
-                </div>
+                  <button style="" class="ui inverted button primary" id="save-img"><span
+                    class="lnr lnr-download"></span></button>
+               
               </div>
             </div>
             <!-- <img id="result-qr-img">  -->
@@ -96,6 +81,8 @@
         </div>
       </div>
     </div>
+
+  
     <img class="center animated bounceInUp" src="../img/attention.svg" width="80px" id="attention">
     <!-- <img src="../img/loading.gif" alt="loading" class="ui small circular image center" id="loading-gif" > -->
     <div class="lds-css ng-scope" style="align-content:center;margin-left:70px;" id="loading-gif">
@@ -170,15 +157,24 @@
   </div>
   </div>
   <!-- Footer content -->
-  <div class="container-bottom drag">
-    <div class="ui grid bottom-adjust">
-<div style="margin-top:53px;margin-left:322px;cursor:pointer">
-    <span class="lnr lnr-cog no-drag" style="font-size:16px;" id="settings-button-id"></span>
 
-</div>
+
+  
+  <div class="container-bottom drag">
+    
+    <div class="ui grid bottom-adjust">
+
+      <div style="margin-top:53px;margin-left:322px;cursor:pointer">
+        <span class="lnr lnr-cog no-drag" style="font-size:16px;" id="settings-button-id"></span>
+
+      </div>
 
     </div>
-  </div>
+  </div> 
+
+
+
+
 
   <!-- Renderer file -->
   <script src="../renderer/index.js"></script>
@@ -196,7 +192,6 @@
   <script src="../js/jquery-3.1.1.min.js"></script>
   <script src="../js/jquery-ui.min.js"></script>
   <script src="../js/semantic.min.js"></script>
-  <script src="./../../node_modules/dm-file-uploader/dist/js/jquery.dm-uploader.min.js"></script>
   <!-- <script src="../js/dropdown.js"></script> -->
 
 </body>

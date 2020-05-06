@@ -1,96 +1,63 @@
 const electron = require('electron');
 
-// for hot reload
-//require('electron-reload')(__dirname);
+// require('electron-reload')(__dirname);
 
-
-
-
-
-// pretty logger
 const logger = require('electron-timber');
-// Module to control application life.
 const app = electron.app;
-// Module to create native browser window.
+
 const BrowserWindow = electron.BrowserWindow;
 
 path = require('path');
 const url = require('url');
-//const autoUpdater = require("electron-updater").autoUpdater;
-const {ipcMain} = require('electron');
+
+const { ipcMain } = require('electron');
 
 
 
-let mainWindow; // this will store the window object
+let mainWindow;
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 
 function createWindow() {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
     title: "qikQR",
     width: 344,
     height: 540,
     resizable: true,
     frame: false,
-    maximizable: true,
-    fullscreenable: false
+    maximizable: false,
+    fullscreenable: false,
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
-  // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'app', 'view', 'index.html'),
     protocol: 'file:',
     slashes: true
   }));
 
-  // Emitted when the window is closed.
+
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null;
   });
 
-  // Open the DevTools.
- //mainWindow.webContents.openDevTools();
+ // mainWindow.webContents.openDevTools();
 
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 
-app.on('ready', function() {
+app.on('ready', function () {
   // NOTE  for development purpose electron process GUI
-  const { openProcessManager } = require('electron-process-manager');
-openProcessManager();
+  //   const { openProcessManager } = require('electron-process-manager');
+  // openProcessManager();
   createWindow();
- logger.log("logging started..");
-  //autoUpdater.checkForUpdates();
+  logger.log("logging started..");
 });
 
-// When the update has been downloaded and is ready to be installed, notify the BrowserWindow
-// autoUpdater.on('update-downloaded', (info) => {
-//   console.log(info);
-//  // mainWindow.webContents.send('updateReady');
-// });
 
-// autoUpdater.on('error', err => console.log(err));
-// autoUpdater.on('checking-for-update', () => console.log('checking-for-update'));
-// autoUpdater.on('update-available', () => console.log('update-available'));
-// autoUpdater.on('update-not-available', () => console.log('update-not-available'));
-
-// When receiving a quitAndInstall signal, quit and install the new version ;)
-// ipcMain.on("quitAndInstall", (event, arg) => {
-//   autoUpdater.quitAndInstall();
-// });
-
-// Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
+
   if (process.platform !== 'darwin') {
     logger.warn("app going to Quit");
     app.quit();
@@ -98,34 +65,29 @@ app.on('window-all-closed', function () {
 });
 
 app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
+
   if (mainWindow === null) {
     createWindow();
   }
 });
 
-ipcMain.on("update the settings config",(event, arg)=>{
+ipcMain.on("update the settings config", (event, arg) => {
   logger.log("new configuration set by user which need to be updated ");
-  mainWindow.webContents.send("update config","update");
-  
+  mainWindow.webContents.send("update config", "update");
+
 });
-ipcMain.on("logger",(event,arg)=>{
+ipcMain.on("logger", (event, arg) => {
   logger.log(arg);
-  if(arg == "settings: save button clicked")
-  {
-    mainWindow.webContents.send("update-config","true");
+  if (arg == "settings: save button clicked") {
+    mainWindow.webContents.send("update-config", "true");
     logger.log("sent to renderer to update the config-data");
   }
 });
 
-ipcMain.on("logger-error",(event,arg)=>{
+ipcMain.on("logger-error", (event, arg) => {
   logger.error(arg);
 });
 
-ipcMain.on("logger-warn",(event,arg)=>{
+ipcMain.on("logger-warn", (event, arg) => {
   logger.warn(arg);
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
