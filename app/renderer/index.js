@@ -16,7 +16,7 @@ var parameters = readSettings();
 var saveLocation = os.homedir + '\\';
 if(os.platform =="linux") saveLocation = os.homedir + '/';
 var settingsWindowVisible = 0;
-const logger = require('electron-timber');
+//const logger = require('electron-timber');
 
 
 
