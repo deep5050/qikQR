@@ -2,9 +2,13 @@
 process.env.NODE_ENV = 'production';
 const electron = require('electron');
 
-// require('electron-reload')(__dirname);
 
-//const logger = require('electron-timber');
+if (process.env.NODE_ENV === 'develpoment') {
+  // require('electron-reload')(__dirname);
+  //const logger = require('electron-timber');
+}
+
+
 const app = electron.app;
 
 const BrowserWindow = electron.BrowserWindow;
@@ -34,7 +38,7 @@ function createWindow() {
   });
 
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'build', 'view', 'index.html'),
+    pathname: path.join(__dirname, 'app', 'view', 'index.html'),
     protocol: 'file:',
     slashes: true
   }));
@@ -44,7 +48,7 @@ function createWindow() {
     mainWindow = null;
   });
 
- // mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
 }
 
@@ -61,7 +65,7 @@ app.on('ready', function () {
 app.on('window-all-closed', function () {
 
   if (process.platform !== 'darwin') {
-   // logger.warn("app going to Quit");
+    // logger.warn("app going to Quit");
     app.quit();
   }
 });
@@ -79,7 +83,7 @@ ipcMain.on("update the settings config", (event, arg) => {
 
 });
 ipcMain.on("logger", (event, arg) => {
- // logger.log(arg);
+  // logger.log(arg);
   if (arg == "settings: save button clicked") {
     mainWindow.webContents.send("update-config", "true");
     //logger.log("sent to renderer to update the config-data");
