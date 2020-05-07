@@ -1,11 +1,15 @@
 //FIXME const { writeSettings } = require("./writeSettings.js");
 
+
+console.log(process.env.PWD);
+
 const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer;
 var shell = require('electron').shell;
+var path = require('path');
 var $ = require('jquery');
 var fs = require('fs');
-var app = require('electron').remote.app;
+//var app = require('electron').remote.app;
 var maxSize = 1000;
 
 
@@ -34,27 +38,32 @@ var parameters = {
 
 
 function writeSettings(obj) {
-  ipcRenderer.send("logger","settngs: writing");
-    var sizeInput = $('#size').val();
-    if (sizeInput != "" || sizeInput != null || sizeInput <= maxSize) {
-      if (sizeInput < 100) {
-        parameters.size = defaultParameters.size;
-        console.log("rounded");
-      }
-      else {
-        parameters.size = sizeInput;
-        console.log("ok");
-      }
-    }
-    else
+  ipcRenderer.send("logger", "settngs: writing");
+  var sizeInput = $('#size').val();
+  if (sizeInput !== "" || sizeInput != null || sizeInput <= maxSize) {
+    if (sizeInput < 100) {
       parameters.size = defaultParameters.size;
-    if (obj.size > maxSize)
-      obj.size = maxSize;
-    var dataToWrite = JSON.stringify(obj);
-    fs.writeFileSync('./settings.json', dataToWrite);
-    console.log("saved.." + dataToWrite);
-    return;
+      console.log("rounded");
+    }
+    else {
+      parameters.size = sizeInput;
+      console.log("ok");
+    }
   }
+  else
+    parameters.size = defaultParameters.size;
+  if (obj.size > maxSize)
+    obj.size = maxSize;
+  var dataToWrite = JSON.stringify(obj);
+  console.log(path.join(__dirname,'settings.json'));
+  //fs.writeFileSync(path.join(__dirname, '..', 'renderer', 'settings.json'), dataToWrite);
+  fs.writeFileSync(path.join(process.env.PWD, 'settings.json'), dataToWrite);
+
+  //fs.writeFileSync(path.join(__dirname, 'settings.json'), dataToWrite);
+
+  console.log("saved.." + dataToWrite);
+  return;
+}
 
 $(document).ready(function () {
   $('#close-button').on('click', e => {
@@ -115,7 +124,7 @@ $(document).ready(function () {
   })
 
   $('#color-yellow').on('click', function () {
-    parameters.color = "ff0"; 
+    parameters.color = "ff0";
   })
   $('#color-white').on('click', function () {
     parameters.color = "fff";
@@ -141,7 +150,7 @@ $(document).ready(function () {
     parameters.bgcolor = "000";
   })
   $('#bgcolor-yellow').on('click', function () {
-    parameters.bgcolor = "ff0"; 
+    parameters.bgcolor = "ff0";
   })
 
   ///////////////// SIZE /////////////////
@@ -167,7 +176,7 @@ $(document).ready(function () {
 
   $("#size").keyup(function (event) {
     // If button pressed was ENTER
-   
+
     if (event.keyCode === 13) {
       var sizeInput = $('#size').val();
       if (sizeInput != "" || sizeInput != null || sizeInput <= maxSize) {
@@ -185,29 +194,29 @@ $(document).ready(function () {
   $('#default').on('click', function () {
     parameters = defaultParameters;
     writeSettings(defaultParameters);
-      setTimeout(function() {
-        ipcRenderer.send("logger","settings: save button clicked");
-    ipcRenderer.send("logger","settings: config updated");
-}, 1000);
+    setTimeout(function () {
+      ipcRenderer.send("logger", "settings: save button clicked");
+      ipcRenderer.send("logger", "settings: config updated");
+    }, 1000);
   });
 
 
-  $('#bug').on('click',function (){
+  $('#bug').on('click', function () {
     shell.openExternal("https://github.com/deep5050/qikQR/issues");
   })
-  $('#heart').on('click',function (){
+  $('#heart').on('click', function () {
     shell.openExternal("https://www.paypal.me/deep5050");
   })
   $('#save').on('click', function () {
-  
-    
+
+
     writeSettings(parameters);
 
     // wait for some time to write the file
-    setTimeout(function() {
-      ipcRenderer.send("logger","settings: save button clicked");
-    ipcRenderer.send("logger","settings: config updated");
-}, 1000);
+    setTimeout(function () {
+      ipcRenderer.send("logger", "settings: save button clicked");
+      ipcRenderer.send("logger", "settings: config updated");
+    }, 1000);
   });
 });
 

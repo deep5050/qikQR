@@ -1,7 +1,7 @@
-// const log = require("./makelog");
-
-const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer;
+
+
+console.log(process.env.PWD);
 
 var shell = require('electron').shell;
 var $ = require('jquery');
@@ -11,29 +11,42 @@ var os = require("os");
 var request = require('request');
 const url = require('url');
 var path = require('path');
-var broserWindow = require('electron').remote.BrowserWindow;
+var browserWindow = require('electron').remote.BrowserWindow;
 var parameters = readSettings();
-var saveLocation = os.homedir + '\\';
-if(os.platform =="linux") saveLocation = os.homedir + '/';
+var saveLocation = process.env.HOME || process.env.USERPROFILE;
+if (!fs.existsSync(path.join(saveLocation, 'qikqr'))) {
+  fs.mkdirSync((path.join(saveLocation, 'qikqr')));
+
+}
+saveLocation = (path.join(saveLocation, 'qikqr'));
+// var saveLocation = os.homedir + '\\';
+// if(os.platform ==="linux") saveLocation = os.homedir + '\\';
 var settingsWindowVisible = 0;
 //const logger = require('electron-timber');
 
 
 
 function makelog(mssg, id = "logger") {
-  if (id == "warn")
+  if (id === "warn")
     id = "logger-warn";
-  if (id == "error")
+  if (id === "error")
     id = "logger-error";
   ipcRenderer.send(id, mssg);
 }
 
 function readSettings() {
-   var temp = JSON.parse(fs.readFileSync('./settings.json'));
-  ipcRenderer.send("logger","index: config-updated");
+  //console.log(path.join(__dirname, 'settings.json'));
+  //console.log(path.join(process.resourcesPath, 'app', 'renderer', 'settings.json'));
+
+  //var temp = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'renderer', 'settings.json')));
+  //var temp = JSON.parse(fs.readFileSync(path.join(__dirname, 'settings.json')));
+  var temp = JSON.parse(fs.readFileSync(path.join(process.env.PWD,'settings.json')));
+
+  ipcRenderer.send("logger", "index: config-updated");
   return temp;
 }
 
+//console.log("dirrrrr: "+ __dirname);
 
 makelog(saveLocation);
 $(document).ready(function () {
@@ -59,14 +72,15 @@ $(document).ready(function () {
 
 $('#close-button').on('click', e => {
   //logger.warn("close button clicked");
-  
+
   app.quit();
 });
 var lastFileName;
 
 $('#save-img').on('click', function () {
   // var outpotLocation = saveLocation + lastFileName + "."+parameters.format;
-  var outputLocation = saveLocation + parameters.data + "." + parameters.format;
+  var fname = parameters.data + "." + parameters.format;
+  var outputLocation = path.join(saveLocation, fname);
   fs.createReadStream('output.' + parameters.format).pipe(fs.createWriteStream(outputLocation)).on('finish', function () {
     shell.showItemInFolder(outputLocation);
   });
@@ -84,9 +98,8 @@ $("#qr-text-input").keyup(function (event) {
 let settingsWindow;
 
 
-function createSettingsWindow()
-{
-  settingsWindow = new broserWindow({
+function createSettingsWindow() {
+  settingsWindow = new browserWindow({
     title: "settings",
     width: 340,
     height: 352,
@@ -96,7 +109,7 @@ function createSettingsWindow()
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true
-  }
+    }
   });
   settingsWindow.loadURL(url.format({
     pathname: path.join(__dirname, '..', 'view', 'settings.html'),
@@ -106,9 +119,9 @@ function createSettingsWindow()
   settingsWindowVisible = 1;
 }
 $("#settings-button-id").on('click', function () {
-  if (settingsWindowVisible == 0) {
+  if (settingsWindowVisible === 0) {
     createSettingsWindow();
-    
+
 
   } else
     try {
@@ -116,7 +129,7 @@ $("#settings-button-id").on('click', function () {
     } catch (error) {
       createSettingsWindow();
     }
-   
+
 
 
 
@@ -156,40 +169,40 @@ $('#home-button').on('click', function () {
 });
 var file;
 // read at least once
-ipcRenderer.send("logger","index: read for the first time");
+ipcRenderer.send("logger", "index: read for the first time");
 readSettings();
 
-ipcRenderer.on("update config",(event, message)=>{
+ipcRenderer.on("update config", (event, message) => {
   //logger.warn(message);
 });
 
-ipcRenderer.on("update-config",(event,message)=>{
+ipcRenderer.on("update-config", (event, message) => {
   // Anchor 
   parameters = readSettings();
-    ipcRenderer.send("logger","index: i will update now");
+  ipcRenderer.send("logger", "index: i will update now");
 
 })
 function textToQR(txt) {
   loadSearchPage();
-  if (txt == '' || txt == null) return;
-  
+  if (txt === '' || txt == null) return;
+
   parameters.data = txt;
-  ipcRenderer.send("logger","index:"+ parameters.data);
+  ipcRenderer.send("logger", "index:" + parameters.data);
   //makelog(parameters.data);
   var reqURL = "https://api.qrserver.com/v1/create-qr-code/?" + "data=" + parameters.data + "&size=" + parameters.size + "x" + parameters.size + "&ecc=" + parameters.ecc + "&color=" + parameters.color + "&bgcolor=" + parameters.bgcolor + "&format=" + parameters.format;
-  ipcRenderer.send("logger","index:" + "URL" + reqURL);
+  ipcRenderer.send("logger", "index:" + "URL" + reqURL);
   request(reqURL)
     .on('error', function (err) {
-      ipcRenderer.send("logger-error","index: error occured");
+      ipcRenderer.send("logger-error", "index: error occured");
       showErrorPage();
     })
     .on('response', function (response) {
-      if (response.statusCode == 200) {
+      if (response.statusCode === 200) {
         file = fs.createWriteStream('output.' + parameters.format, {
           autoClose: true
         });
         response.pipe(file);
-        ipcRenderer.send("logger","index: success and file created");
+        ipcRenderer.send("logger", "index: success and file created");
         showSuccessPage(txt, file);
       }
     })
@@ -199,7 +212,7 @@ function loadSearchPage() {
   $('.zone').hide();
   $('#result-qr').hide();
   $('#attention').hide();
- 
+
   $('#loading-gif').show();
 }
 
@@ -218,28 +231,28 @@ function showSuccessPage(txt, file) {
   $('.zone').hide();
   $(".fail-to-find-text").text("");
   //$(".main-window").css("background", "linear-gradient(to bottom,  #ADD372 0%, #8EC89F 85%,#77C0C0 100%)");
- // $('.main-window').css("background-color", "#91ffa9");
+  // $('.main-window').css("background-color", "#91ffa9");
   //$(".main-window").css("background-image", `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='50' height='25' viewBox='0 0 50 25'%3E%3Cdefs%3E%3Crect stroke='%2388ff81' stroke-width='0.1' width='1' height='1' id='s'/%3E%3Cpattern id='a' width='2' height='2' patternUnits='userSpaceOnUse'%3E%3Cg stroke='%2388ff81' stroke-width='0.1'%3E%3Crect fill='%2385fa7e' width='1' height='1'/%3E%3Crect fill='%2388ff81' width='1' height='1' x='1' y='1'/%3E%3Crect fill='%2383f57c' width='1' height='1' y='1'/%3E%3Crect fill='%2380f079' width='1' height='1' x='1'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='b' width='5' height='11' patternUnits='userSpaceOnUse'%3E%3Cg fill='%237deb77'%3E%3Cuse xlink:href='%23s' x='2' y='0'/%3E%3Cuse xlink:href='%23s' x='4' y='1'/%3E%3Cuse xlink:href='%23s' x='1' y='2'/%3E%3Cuse xlink:href='%23s' x='2' y='4'/%3E%3Cuse xlink:href='%23s' x='4' y='6'/%3E%3Cuse xlink:href='%23s' x='0' y='8'/%3E%3Cuse xlink:href='%23s' x='3' y='9'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='c' width='7' height='7' patternUnits='userSpaceOnUse'%3E%3Cg fill='%237ae574'%3E%3Cuse xlink:href='%23s' x='1' y='1'/%3E%3Cuse xlink:href='%23s' x='3' y='4'/%3E%3Cuse xlink:href='%23s' x='5' y='6'/%3E%3Cuse xlink:href='%23s' x='0' y='3'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='d' width='11' height='5' patternUnits='userSpaceOnUse'%3E%3Cg fill='%2388ff81'%3E%3Cuse xlink:href='%23s' x='1' y='1'/%3E%3Cuse xlink:href='%23s' x='6' y='3'/%3E%3Cuse xlink:href='%23s' x='8' y='2'/%3E%3Cuse xlink:href='%23s' x='3' y='0'/%3E%3Cuse xlink:href='%23s' x='0' y='3'/%3E%3C/g%3E%3Cg fill='%2378e072'%3E%3Cuse xlink:href='%23s' x='8' y='3'/%3E%3Cuse xlink:href='%23s' x='4' y='2'/%3E%3Cuse xlink:href='%23s' x='5' y='4'/%3E%3Cuse xlink:href='%23s' x='10' y='0'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='e' width='47' height='23' patternUnits='userSpaceOnUse'%3E%3Cg fill='%232f2a1e'%3E%3Cuse xlink:href='%23s' x='2' y='5'/%3E%3Cuse xlink:href='%23s' x='23' y='13'/%3E%3Cuse xlink:href='%23s' x='4' y='18'/%3E%3Cuse xlink:href='%23s' x='35' y='9'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='f' width='61' height='31' patternUnits='userSpaceOnUse'%3E%3Cg fill='%232f2a1e'%3E%3Cuse xlink:href='%23s' x='16' y='0'/%3E%3Cuse xlink:href='%23s' x='13' y='22'/%3E%3Cuse xlink:href='%23s' x='44' y='15'/%3E%3Cuse xlink:href='%23s' x='12' y='11'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23a)' width='50' height='25'/%3E%3Crect fill='url(%23b)' width='50' height='25'/%3E%3Crect fill='url(%23c)' width='50' height='25'/%3E%3Crect fill='url(%23d)' width='50' height='25'/%3E%3Crect fill='url(%23e)' width='50' height='25'/%3E%3Crect fill='url(%23f)' width='50' height='25'/%3E%3C/svg%3E")`);
   $(".main-window").css("background-repeate", "repeat");
   $(".main-window").css("background-attachment", "fixed");
   $(".main-window").css("background-size", "cover");
 
   // $("#searching-sub-for-id").text('your QR code is here');
-  
+
   $("#loading-id").hide();
   $('#loading-gif').hide();
   $("#logo").attr("src", "../img/logo-g.svg");
   $('#result-qr').show();
   file.on('finish', function () {
     $('#qr-output').remove();
-   // makelog("removed");
+    // makelog("removed");
     var qrOutput = document.createElement('img');
-    qrOutput.src = '../../output.'+parameters.format+'?' + tokenGenerator(); // to read different files with same name . ?randomnumber helps to force the browser to fetch the image file from directory instead of cache
+    qrOutput.src = '../../output.' + parameters.format + '?' + tokenGenerator(); // to read different files with same name . ?randomnumber helps to force the browser to fetch the image file from directory instead of cache
     qrOutput.id = "qr-output";
     $('#logo-here').append(qrOutput);
 
     $('#attention').hide();
-   
+
   });
 
 }
@@ -263,8 +276,7 @@ function showErrorPage() {
   $('#loading-gif').hide();
 
 }
-function handleDragEvents(type, mssg)
-{
+function handleDragEvents(type, mssg) {
   $('.zone').show();
   $(".fail-to-find-text").text(mssg);
 
@@ -272,18 +284,17 @@ function handleDragEvents(type, mssg)
   $('#fail-to-find-text-id').show();
   //$("#loading-id").show();
   //$("#loading-id").fadeOut("slow");
-  if (type == 'error') {
+  if (type === 'error') {
     $('.zone').transition('shake');
     $(".fail-to-find-text").css('color', 'red');
   }
-    else
-    {
-      $(".fail-to-find-text").css('color', 'white');
-    
-    }
+  else {
+    $(".fail-to-find-text").css('color', 'white');
 
   }
 
+}
 
 
-  module.exports.makelog = makelog;
+
+module.exports.makelog = makelog;

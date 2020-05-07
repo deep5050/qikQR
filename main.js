@@ -28,7 +28,7 @@ function createWindow() {
     title: "qikQR",
     width: 344,
     height: 540,
-    resizable: true,
+    resizable: false,
     frame: false,
     maximizable: false,
     fullscreenable: false,
@@ -48,7 +48,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  // mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
 }
 
