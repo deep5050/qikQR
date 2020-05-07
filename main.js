@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'production';
 const electron = require('electron');
 
 
-if (process.env.NODE_ENV === 'develpoment') {
+if (process.env.NODE_ENV === 'development') {
   // require('electron-reload')(__dirname);
   //const logger = require('electron-timber');
 }
