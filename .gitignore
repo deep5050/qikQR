@@ -3,7 +3,7 @@ logs
 *.log
 npm-debug.log*
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
+
 
 # Dependency directories
 node_modules/
@@ -63,3 +63,6 @@ output.jpeg
 output.png
 output.gif
 output.svg
+
+
+dist/

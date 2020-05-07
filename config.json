@@ -6,6 +6,23 @@
     "title" : "qikQR",
     "comment" : "A minimal QR code genrator app",
     "executable" : "qikqr",
-    "maintainer": "dipankar pal <dipankarpal5050@gmail.com>"
+    "maintainer": "dipankar pal <dipankarpal5050@gmail.com>",
+    "category": "Utility",
+    "appId": "com.deep5050.qikqr",
+    "icon": "build/icons/icon256x256.png"
+  },
+    "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64",
+          "ia32"
+        ],
+        "oneClick" : true,
+        "allowToChangeInstallationDirectory": true
+      }
+    ]
   }
+
 }

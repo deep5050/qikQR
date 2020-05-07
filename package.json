@@ -1,24 +1,28 @@
 {
   "name": "qikqr",
-  "email": "dipankarpal5050@gmail.com",
   "version": "1.0.0",
   "description": "simple app to create QR codes",
   "main": "main.js",
-  "author": "dipankar Pal",
+  "author": "dipankar Pal <dipankarpal5050@gmail.com>",
   "contributors": {
     "name": "dipankar pal",
     "email": "dipankarpal5050@gmai.com"
   },
- 
+ "files": [
+    "*.js",
+    "app",
+    "build",
+    "node_modules"
+  ],
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "start": "electron .",
     "pack": "build --dir",
     "dist:linux": "build -l --config",
+    "dist:win": "electron-builder --windows nsis:ia32",
+    "dist:deb": "electron-builder --linux deb tar.xz",
     "dist": "electron-builder"
-    
-
-},
+  },
   "repository": "https://github.com/deep5050/qikQR",
   "homepage": "https://deep5050.github.io/qikQR",
   "keywords": [
@@ -27,10 +31,9 @@
     "qr-code",
     "quick response code"
   ],
-
   "devDependencies": {
     "electron": "8.2.5",
-    "electron-builder": "^20.5.1",
+    "electron-builder": "^22.6.0",
     "electron-packager": "^14.2.1",
     "electron-store": "^1.3.0",
     "request": "^2.88.0"

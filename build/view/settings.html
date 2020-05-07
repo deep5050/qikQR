@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>settings</title>
+  <link rel="stylesheet" type="text/css" href="../css/open-sans.css">
+  <link rel="stylesheet" type="text/css" href="../css/semantic.min.css">
+  <link rel="stylesheet" href="../css/icon-font.min.css">
+  <link rel="stylesheet" href="../css/jquery-ui.min.css">
+  <link rel="stylesheet" href="../css/settings.css">
+</head>
+
+<body style="padding:5px 0px;" class="drag">
+  <div class="container-top">
+    <div class="ui grid top-adjust">
+
+      <!-- Home button content -->
+      <div class="five wide column top">
+        <center>
+
+        </center>
+      </div>
+
+      <div class="six wide column">
+        <center>
+
+        </center>
+      </div>
+
+      <!-- Exit button content -->
+      <div class="five wide column top" style="margin-left:295px;margin-top:-25px;">
+        <center>
+          <span id="close-button" class="lnr lnr-cross"></span>
+        </center>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="main-window no-drag" style="margin:0px;padding:2px;width:100%;">
+    <div style="height:40px;margin-bottom:5px;" class="logo-area">
+
+
+    </div>
+    <br>
+
+    <center>
+      <div class="ui compact selection dropdown " id="format">
+        <i class="dropdown icon"></i>
+        <div class="text">choose file type</div>
+        <div class="menu">
+          <div class="item" id="format-jpg">jpg</div>
+          <div class="item" id="format-jpeg">jpeg</div>
+          <div class="item" id="format-png">png</div>
+          <div class="item" id="format-gif">gif</div>
+          <div class="item" id="format-svg">svg</div>
+        </div>
+      </div>
+      <div class="ui compact selection dropdown " id="ecc">
+        <i class="dropdown icon"></i>
+        <div class="text">Error correction</div>
+        <div class="menu">
+          <div class="item" id="ecc-h">High</div>
+          <div class="item" id="ecc-q">Quality</div>
+          <div class="item" id="ecc-m">Mid</div>
+          <div class="item" id="ecc-l">Low</div>
+        </div>
+      </div>
+
+      <br>
+
+    </center>
+    <br>
+    <div>
+      <center>
+
+        <div class="ui labeled input">
+          <input type="text" placeholder="Enter height / width" id="size">
+          <div class="ui basic label">
+            px
+          </div>
+        </div>
+      </center>
+    </div>
+
+    <br>
+    <!-- color -->
+    <div>
+
+      <center>
+        <div class="ui floating labeled icon dropdown button no-drag" id="color">
+          <i class="filter icon"></i>
+          <span class="text">QR color</span>
+          <div class="menu">
+            <div class="item" id="color-white">
+              <div class="ui white empty circular label no-drag"></div>
+              White
+            </div>
+            <div class="item" id="color-blue">
+              <div class="ui blue empty circular label"></div>
+              Blue
+            </div>
+            <div class="item" id="color-yellow">
+              <div class="ui yellow empty circular label"></div>
+              Yellow
+            </div>
+            <div class="item" id="color-red">
+              <div class="ui red empty circular label"></div>
+              Red
+            </div>
+            <div class="item" id="color-black">
+              <div class="ui black empty circular label"></div>
+              Black
+            </div>
+          </div>
+        </div>
+
+        <!-- bgcolor -->
+        <div class="ui floating labeled icon dropdown button" id="bgcolor">
+          <i class="filter icon"></i>
+          <span class="text">Background color</span>
+          <div class="menu">
+            <div class="item" id="bgcolor-white">
+              <div class="ui white empty circular label no-drag"></div>
+              White
+            </div>
+            <div class="item" id="bgcolor-blue">
+              <div class="ui blue empty circular label"></div>
+              Blue
+            </div>
+            <div class="item" id="bgcolor-yellow">
+              <div class="ui yellow empty circular label"></div>
+              Yellow
+            </div>
+            <div class="item" id="bgcolor-red">
+              <div class="ui red empty circular label"></div>
+              Red
+            </div>
+            <div class="item" id="bgcolor-black">
+              <div class="ui black empty circular label"></div>
+              Black
+            </div>
+          </div>
+
+        </div>
+      </center>
+    </div>
+    <br>
+    <!-- save -->
+    <div>
+      <center>
+        <div class="ui buttons">
+          <button class="ui button" id="default">Default</button>
+          <div class="or" data-text="or"></div>
+          <button class="ui positive button" id="save">Save</button>
+        </div>
+      </center>
+    </div>
+
+  </div>
+  <br>
+
+  <!-- Footer content -->
+  <div class="container-bottom no-drag" style=" height:50px;" id="bottom">
+    <div class="ui grid bottom-adjust">
+
+
+
+      <div style="cursor:pointer;margin-left:7px;margin-top:40px;">
+        <span class="lnr lnr-bug" style="font-size:16px;color:black;cursor: pointer;" id="bug"></span>
+
+      </div>
+      <div style="cursor:pointer;margin-left:317px;margin-top:40px;position:fixed;">
+        <span class="lnr lnr-heart" style="font-size:16px;color:black;cursor: pointer;" id="heart"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../renderer/settings.js"></script>
+  <script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+  </script>
+
+  <script src="../js/jquery-3.1.1.min.js"></script>
+  <script src="../js/jquery-ui.min.js"></script>
+  <script src="../js/semantic.min.js"></script>
+
+
+</body>
+
+</html>

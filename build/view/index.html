@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="../css/open-sans.css">
+  <link rel="stylesheet" type="text/css" href="../css/semantic.min.css">
+  <link rel="stylesheet" href="../css/icon-font.min.css">
+  <link rel="stylesheet" href="../css/jquery-ui.min.css">
+  <link href="../css/index.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="../css/animate.css">
+  <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous"> -->
+</head>
+
+<body>
+  <div class="main-window">
+
+    <div id="update-nag" class="ui inline nag">
+      <span class="title">New update is available.</span>
+      <button id="install-btn-id" class="positive small ui button">Install &amp; Restart</button>
+      <i class="close icon"></i>
+    </div>
+    <!-- Header content -->
+    <div class="container-top">
+      <div class="ui grid top-adjust">
+
+        <!-- Home button content -->
+        <div class="five wide column top animated fadeInLeft">
+          <center>
+            <span id="home-button" class="lnr lnr-home"></span>
+          </center>
+        </div>
+
+        <div class="six wide column">
+        </div>
+
+        <!-- Exit button content -->
+        <div class="five wide column top animated fadeInRight">
+          <center>
+            <span id="close-button" class="lnr lnr-cross"></span>
+          </center>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div id="main" class="main drag">
+
+      <!-- Search box content -->
+      <center>
+        <div id="search-box-div-id" class="search-box-div no-drag animated bounceInDown">
+          <span class="lnr lnr-magnifier search-icon-adjust"></span>
+          <input type="text" id="qr-text-input" class="search-box" placeholder="Type the text here ....">
+        </div>
+      </center>
+
+      <center>
+        <div id="fail-to-find-text-id" class="fail-to-find-text"></div>
+      </center>
+
+
+      <br>
+      <br>
+   <img style="margin-top:-10px;" src="../img/qikqr.png" alt="">
+  </div>
+      <div class="ui special cards centered" id="result-qr">
+        <div class="card">
+          <div class="blurring dimmable image" id="logo-here">
+            <div class="ui dimmer">
+              <div class="content">
+                <div class="center">
+                  <button style="" class="ui inverted button primary" id="save-img"><span
+                    class="lnr lnr-download"></span></button>
+               
+              </div>
+            </div>
+            <!-- <img id="result-qr-img">  -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+    <img class="center animated bounceInUp" src="../img/attention.svg" width="80px" id="attention">
+    <!-- <img src="../img/loading.gif" alt="loading" class="ui small circular image center" id="loading-gif" > -->
+    <div class="lds-css ng-scope" style="align-content:center;margin-left:70px;" id="loading-gif">
+      <div class="lds-blocks" style="width:100%;height:100%">
+        <div style="left:53px;top:53px;animation-delay:0s"></div>
+        <div style="left:85px;top:53px;animation-delay:0.8875s"></div>
+        <div style="left:117px;top:53px;animation-delay:1.775s"></div>
+        <div style="left:53px;top:85px;animation-delay:0.2124999999999995s"></div>
+        <div style="left:117px;top:85px;animation-delay:3.6624999999999996s"></div>
+        <div style="left:53px;top:117px;animation-delay:0.324999999999999s"></div>
+        <div style="left:85px;top:117px;animation-delay:5.4375s"></div>
+        <div style="left:117px;top:117px;animation-delay:0.55s"></div>
+      </div>
+      <style type="text/css">
+        @keyframes lds-blocks {
+          0% {
+            background: #ffffff;
+          }
+
+          12.5% {
+            background: #ffffff;
+          }
+
+          12.625% {
+            background: #ffffff;
+          }
+
+          100% {
+            background: #000000;
+          }
+        }
+
+        @-webkit-keyframes lds-blocks {
+          0% {
+            background: #ffffff;
+          }
+
+          12.5% {
+            background: #ffffff;
+          }
+
+          12.625% {
+            background: #ffffff;
+          }
+
+          100% {
+            background: #000000;
+          }
+        }
+
+        .lds-blocks {
+          position: relative;
+        }
+
+        .lds-blocks div {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          background: #ffffff;
+          -webkit-animation: lds-blocks 0.2s linear infinite;
+          animation: lds-blocks 0.2s linear infinite;
+        }
+
+        .lds-blocks {
+          width: 200px !important;
+          height: 200px !important;
+          -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+          transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+        }
+      </style>
+    </div>
+  </div>
+  </div>
+  <!-- Footer content -->
+
+
+  
+  <div class="container-bottom drag">
+    
+    <div class="ui grid bottom-adjust">
+
+      <div style="margin-top:53px;margin-left:322px;cursor:pointer">
+        <span class="lnr lnr-cog no-drag" style="font-size:16px;" id="settings-button-id"></span>
+
+      </div>
+
+    </div>
+  </div> 
+
+
+
+
+
+  <!-- Renderer file -->
+  <script src="../renderer/index.js"></script>
+
+  <!-- Included in order to make jQuery work 
+  More info : https://electronjs.org/docs/faq#i-can-not-use-jqueryrequirejsmeteorangularjs-in-electron
+  -->
+  <script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+  </script>
+
+  <script src="../js/jquery-3.1.1.min.js"></script>
+  <script src="../js/jquery-ui.min.js"></script>
+  <script src="../js/semantic.min.js"></script>
+  <!-- <script src="../js/dropdown.js"></script> -->
+
+</body>
+
+</html>
