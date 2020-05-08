@@ -1,17 +1,17 @@
 {
-  "linux" : {
-    "arch" : 64,
-    "target" : "deb",
-    "version" : "1.0.0",
-    "title" : "qikQR",
-    "comment" : "A minimal QR code genrator app",
-    "executable" : "qikqr",
+  "linux": {
+    "arch": 64,
+    "target": "deb",
+    "version": "1.0.0",
+    "title": "qikQR",
+    "comment": "A minimal QR code generator app",
+    "executable": "qikqr",
     "maintainer": "dipankar pal <dipankarpal5050@gmail.com>",
     "category": "Utility",
     "appId": "com.deep5050.qikqr",
     "icon": "build/icons/icon256x256.png"
   },
-    "win": {
+  "win": {
     "target": [
       {
         "target": "nsis",
@@ -19,10 +19,9 @@
           "x64",
           "ia32"
         ],
-        "oneClick" : true,
+        "oneClick": true,
         "allowToChangeInstallationDirectory": true
       }
     ]
   }
-
 }

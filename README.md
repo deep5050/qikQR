@@ -54,6 +54,8 @@ Thanks To <a href="https://api.qrserver.com">  qrserver.com</a> For Providing Th
 <div align="center" >
 UI inspiration  <a href="https://github.com/sanjevirau/gsubs">  gSubs</a> 
 </div>
+<br>
+<div align="center"> See <a href="./USAGE.md"> USAGE.md </a> For Usage Details </div>
 <br><br>
 <div align="center">
 MIT License

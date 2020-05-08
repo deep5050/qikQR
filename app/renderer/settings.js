@@ -1,7 +1,4 @@
-//FIXME const { writeSettings } = require("./writeSettings.js");
 
-
-console.log(process.env.PWD);
 
 const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer;
@@ -9,11 +6,22 @@ var shell = require('electron').shell;
 var path = require('path');
 var $ = require('jquery');
 var fs = require('fs');
+const Store = require('electron-store');
 //var app = require('electron').remote.app;
 var maxSize = 1000;
 
 
+const store = new Store();
 
+// setting the default parameters
+store.set({
+  data: "",
+  size: "300",
+  ecc: "L",
+  color: "000",
+  bgcolor: "fff",
+  format: "jpg"
+});
 
 var defaultParameters = {
   data: "",
@@ -23,6 +31,7 @@ var defaultParameters = {
   bgcolor: "fff",
   format: "jpg"
 };
+
 //exports.defaultParameters = defaultParameters;
 
 var parameters = {
@@ -33,9 +42,6 @@ var parameters = {
   bgcolor: "fff",
   format: "jpg"
 };
-
-
-
 
 function writeSettings(obj) {
   ipcRenderer.send("logger", "settngs: writing");
@@ -54,14 +60,10 @@ function writeSettings(obj) {
     parameters.size = defaultParameters.size;
   if (obj.size > maxSize)
     obj.size = maxSize;
-  var dataToWrite = JSON.stringify(obj);
-  console.log(path.join(__dirname,'settings.json'));
-  //fs.writeFileSync(path.join(__dirname, '..', 'renderer', 'settings.json'), dataToWrite);
-  fs.writeFileSync(path.join(process.env.PWD, 'settings.json'), dataToWrite);
 
-  //fs.writeFileSync(path.join(__dirname, 'settings.json'), dataToWrite);
+  store.set(obj);
 
-  console.log("saved.." + dataToWrite);
+  console.log("saved user preferences");
   return;
 }
 
@@ -171,12 +173,8 @@ $(document).ready(function () {
     }
   });
 
-
-
-
   $("#size").keyup(function (event) {
     // If button pressed was ENTER
-
     if (event.keyCode === 13) {
       var sizeInput = $('#size').val();
       if (sizeInput != "" || sizeInput != null || sizeInput <= maxSize) {
@@ -185,7 +183,6 @@ $(document).ready(function () {
           console.log("rounded");
         } else {
           parameters.size = sizeInput;
-          //console.log("ok");
         }
       } else parameters.size = defaultParameters.size;
     }
@@ -208,10 +205,7 @@ $(document).ready(function () {
     shell.openExternal("https://www.paypal.me/deep5050");
   })
   $('#save').on('click', function () {
-
-
     writeSettings(parameters);
-
     // wait for some time to write the file
     setTimeout(function () {
       ipcRenderer.send("logger", "settings: save button clicked");
@@ -219,5 +213,3 @@ $(document).ready(function () {
     }, 1000);
   });
 });
-
-
