@@ -1,27 +1,19 @@
+process.env.NODE_ENV = 'production'; // change this value to 'development' while developing
 
-process.env.NODE_ENV = 'production';
 const electron = require('electron');
-
-
-if (process.env.NODE_ENV === 'development') {
-  // require('electron-reload')(__dirname);
-  //const logger = require('electron-timber');
-}
-
+const BrowserWindow = electron.BrowserWindow;
+const path = require('path');
+const url = require('url');
+const { ipcMain } = require('electron');
 
 const app = electron.app;
 
-const BrowserWindow = electron.BrowserWindow;
-
-path = require('path');
-const url = require('url');
-
-const { ipcMain } = require('electron');
-
-
+if (process.env.NODE_ENV === 'development') {
+  /*  require('electron-reload')(__dirname);
+   const logger = require('electron-timber'); */
+}
 
 let mainWindow;
-
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -49,21 +41,17 @@ function createWindow() {
   });
 
   //mainWindow.webContents.openDevTools();
-
 }
-
 
 app.on('ready', function () {
   // NOTE  for development purpose electron process GUI
-  //   const { openProcessManager } = require('electron-process-manager');
-  // openProcessManager();
+
+  /*   const { openProcessManager } = require('electron-process-manager');
+    openProcessManager(); */
   createWindow();
-  //logger.log("logging started..");
 });
 
-
 app.on('window-all-closed', function () {
-
   if (process.platform !== 'darwin') {
     // logger.warn("app going to Quit");
     app.quit();
@@ -71,7 +59,6 @@ app.on('window-all-closed', function () {
 });
 
 app.on('activate', function () {
-
   if (mainWindow === null) {
     createWindow();
   }
@@ -80,10 +67,9 @@ app.on('activate', function () {
 ipcMain.on("update the settings config", (event, arg) => {
   //logger.log("new configuration set by user which need to be updated ");
   mainWindow.webContents.send("update config", "update");
-
 });
+
 ipcMain.on("logger", (event, arg) => {
-  // logger.log(arg);
   if (arg == "settings: save button clicked") {
     mainWindow.webContents.send("update-config", "true");
     //logger.log("sent to renderer to update the config-data");
