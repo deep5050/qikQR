@@ -57,12 +57,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-
-output.jpg
-output.jpeg
-output.png
-output.gif
-output.svg
-
-
 dist/
