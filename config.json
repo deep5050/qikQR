@@ -2,7 +2,7 @@
   "linux": {
     "arch": 64,
     "target": "deb",
-    "version": "1.0.0",
+    "version": "v1.0.1",
     "title": "qikQR",
     "comment": "A minimal QR code generator app",
     "executable": "qikqr",
