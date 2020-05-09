@@ -1,6 +1,6 @@
 {
   "name": "qikqr",
-  "version": "1.0.0",
+  "version": "v1.0.1",
   "description": "simple app to create QR codes",
   "main": "main.js",
   "author": "dipankar Pal <dipankarpal5050@gmail.com>",
