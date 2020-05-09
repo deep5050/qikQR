@@ -13,12 +13,17 @@ jobs:
       uses: actions/setup-node@master
       with:
         node-version: 13.x
+      
     - name: Install
       run: yarn install
+      
     - name: Build deb
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: yarn run dist:deb
+      
     - name: Build AppImage
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: yarn run dist:appimage
        
