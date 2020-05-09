@@ -1,0 +1,23 @@
+
+name: GitHub CI
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Use Node.js 13.x
+      uses: actions/setup-node@master
+      with:
+        node-version: 13.x
+    - name: Install
+      run: yarn install
+    - name: Build deb
+      run: yarn run dist:deb
+    - name: Build AppImage
+      run: yarn run dist:appimage
+      with:
+           github_token: ${{ secrets.github_token }}         
