@@ -16,6 +16,8 @@ jobs:
     - name: Install
       run: yarn install
     - name: Build deb
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: yarn run dist:deb
     - name: Build AppImage
       run: yarn run dist:appimage
