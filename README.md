@@ -16,6 +16,8 @@
  qikQR is multi-platform, open-source, and built entirely on web technology.</p>
   <p align="center"><a href="https://github.com/deep5050/qikQR/releases">Download qikQR</a></p>
   <p align="center">
+  
+  <a href="https://github.com/deep5050/qikQR/workflows/GitHub%20CI/"> <img src="https://github.com/deep5050/qikQR/workflows/GitHub%20CI/badge.svg?branch=master"></a>
   <a href="https://github.com/deep5050/qikQR/releases" alt="Downloads"><img src="https://img.shields.io/github/downloads/deep5050/qikQR/total.svg" /></a>
   <a href="https://github.com/deep5050/qikQR/stargazers" alt="Stars"><img src="https://img.shields.io/github/stars/deep5050/gsubs.svg" /></a>
   <a href="https://github.com/deep5050/qikQR/network" alt="Forks"><img src="https://img.shields.io/github/forks/deep5050/qikQR.svg" /></a>
