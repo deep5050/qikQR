@@ -37,6 +37,11 @@
 <h5 align="center">
 SCREENSHOTS
 </h5>
+
+<h3 align="center">
+<img src="./app/img/screenshots/qr-download.png">
+</h3>
+
 <h3 align="center">
 
 <img src="./app/img/screenshots/settings.png">
