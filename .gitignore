@@ -56,4 +56,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
+dist/linux-unpacked
+dist/__appImage-x64
