@@ -30,8 +30,8 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: yarn run dist:appimage
       
-    - name: publish changes
-      uses: mikeal/publish-to-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    - name: upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux Build
+        path: dist/*.deb
