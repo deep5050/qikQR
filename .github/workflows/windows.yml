@@ -1,0 +1,26 @@
+
+name: Windows Build
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        lfs: true
+        
+    - name: Use Node.js 13.x
+      uses: actions/setup-node@master
+      with:
+        node-version: 13.x
+      
+    - name: Install
+      run: yarn install
+      
+    - name: Build windows
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: yarn run dist:win
