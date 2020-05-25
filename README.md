@@ -17,14 +17,17 @@
   <p align="center"><a href="https://github.com/deep5050/qikQR/releases">Download qikQR</a></p>
   <p align="center">
   
-  <a href="https://github.com/deep5050/qikQR/workflows/GitHub%20CI/"> <img src="https://github.com/deep5050/qikQR/workflows/GitHub%20CI/badge.svg?branch=master"></a>
+  <a href="https://github.com/deep5050/qikQR/workflows/Linux/"> <img src="https://github.com/deep5050/qikQR/workflows/Linux/badge.svg"></a>
+
+   <a href="https://github.com/deep5050/qikQR/workflows/Windows/"> <img src="https://github.com/deep5050/qikQR/workflows/Windows/badge.svg"></a>
+
   <a href="https://github.com/deep5050/qikQR/releases" alt="Downloads"><img src="https://img.shields.io/github/downloads/deep5050/qikQR/total.svg" /></a>
   <a href="https://github.com/deep5050/qikQR/stargazers" alt="Stars"><img src="https://img.shields.io/github/stars/deep5050/gsubs.svg" /></a>
   <a href="https://github.com/deep5050/qikQR/network" alt="Forks"><img src="https://img.shields.io/github/forks/deep5050/qikQR.svg" /></a>
   <a href="https://github.com/sanjevirau/gsubs/issues" alt="Issues"><img src="https://img.shields.io/github/issues/deep5050/qikQR.svg" /></a>
   <a href="https://github.com/deep5050/qikQR/blob/master/LICENSE" alt="License"><img src="https://img.shields.io/github/license/deep5050/qikQR.svg" /></a>
   <a href="https://paypal.me/deep5050" alt="License"><img src="https://img.shields.io/badge/Donate-PayPal-green.svg" /></a>
-    <a href="https://gitpod.io/#https://github.com/deep5050/qikQR" alt="Gitpod"><img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" /></a>
+ 
 <img src=https://www.codefactor.io/repository/github/deep5050/qikqr/badge/>
   </p>
 </p>
