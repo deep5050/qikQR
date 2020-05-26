@@ -1,9 +1,0 @@
-version: 1.0.1
-files:
-  - url: qikqr-1.0.1.AppImage
-    sha512: 64jLwmGEnB34O0t9iO4WIiJ23FHeuqS5guBWHdJ+Bx9MTNZXIddmobzI/UyCeAAtR/o33QQZDrbLg8PJ5Mf+tg==
-    size: 75113762
-    blockMapSize: 79158
-path: qikqr-1.0.1.AppImage
-sha512: 64jLwmGEnB34O0t9iO4WIiJ23FHeuqS5guBWHdJ+Bx9MTNZXIddmobzI/UyCeAAtR/o33QQZDrbLg8PJ5Mf+tg==
-releaseDate: '2020-05-25T12:47:30.935Z'
