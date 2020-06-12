@@ -44,7 +44,7 @@
   "dependencies": {
     "electron-store": "^5.2.0",
     "jquery": "^3.5.0",
-    "request": "^2.88.0",
+    "request": "^2.88.2",
     "rimraf": "^3.0.2"
   }
 }
