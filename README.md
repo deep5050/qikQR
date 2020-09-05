@@ -1,4 +1,3 @@
-
 <h1 align="center" >
   <img  src="app/img/qikqr.png"  alt="qikQR Logo" draggable="false"><br>
 </h1>
@@ -17,6 +16,7 @@
   <p align="center"><a href="https://github.com/deep5050/qikQR/releases">Download qikQR</a></p>
   <p align="center"><a href="https://github.com/deep5050/qikQR/workflows/Linux/"> <img src="https://github.com/deep5050/qikQR/workflows/Linux/badge.svg"></a><a href="https://github.com/deep5050/qikQR/workflows/Windows/"> <img src="https://github.com/deep5050/qikQR/workflows/Windows/badge.svg"></a>
 <a href="https://github.com/deep5050/qikQR/releases" alt="Downloads"><img src="https://img.shields.io/github/downloads/deep5050/qikQR/total.svg" /></a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fdeep5050%2FqikQR?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdeep5050%2FqikQR.svg?type=shield"/></a>
   <a href="https://github.com/deep5050/qikQR/stargazers" alt="Stars"><img src="https://img.shields.io/github/stars/deep5050/gsubs.svg" /></a>
   <a href="https://github.com/deep5050/qikQR/network" alt="Forks"><img src="https://img.shields.io/github/forks/deep5050/qikQR.svg" /></a>
   <a href="https://github.com/sanjevirau/gsubs/issues" alt="Issues"><img src="https://img.shields.io/github/issues/deep5050/qikQR.svg" /></a>
@@ -86,3 +86,6 @@ SOFTWARE.
 
 
 </div>
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdeep5050%2FqikQR.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdeep5050%2FqikQR?ref=badge_large)
