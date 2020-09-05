@@ -51,7 +51,7 @@ SCREENSHOTS
 Thanks To <a href="https://api.qrserver.com">  qrserver.com</a> For Providing The Data
 </div>
 <div align="center" >
-UI inspiration  <a href="https://github.com/sanjevirau/gsubs">  gSubs</a> 
+UI inspiration  <a href="https://github.com/sanjevirau/gsubs">  gSubs</a>
 </div>
 <br>
 <div align="center"> See <a href="./USAGE.md"> USAGE.md </a> For Usage Details </div>
