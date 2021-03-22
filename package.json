@@ -37,7 +37,7 @@
     "electron": "9.1.1",
     "electron-builder": "^22.6.0",
     "electron-packager": "^14.2.1",
-    "electron-process-manager": "^0.7.1",
+    "electron-process-manager": "^1.0.0",
     "electron-reload": "^1.4.0",
     "electron-timber": "^0.5.1"
   },
