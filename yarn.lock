@@ -1034,10 +1034,10 @@ electron-packager@^14.2.1:
     semver "^6.0.0"
     yargs-parser "^16.0.0"
 
-electron-process-manager@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/electron-process-manager/-/electron-process-manager-0.7.1.tgz#fb53f6f80f1d0b10d32da758bc8bc9013751a5e0"
-  integrity sha512-GE7Sok7IfObhVPqx7n+wVBpdFxVvR/ySa56sLsTT4rnYKBFDWtdrVMiXgKjhHjxsxO59Y+piXT6QonamrQFWeA==
+electron-process-manager@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/electron-process-manager/-/electron-process-manager-1.0.0.tgz#d56a298f14f054c1b30b1c8a71c233362fe53ab2"
+  integrity sha512-VK88JlOm58bZ4OMUXpTB3ILXBsniN5yFEYbuBeJURj451To1rmwIOtlhuC6xCPgvHXZRIDZ095MOO3QjBKHEuA==
   dependencies:
     electron-process-reporter "^1.4.0"
 
