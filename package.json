@@ -34,7 +34,7 @@
     "qr"
   ],
   "devDependencies": {
-    "electron": "9.1.1",
+    "electron": "18.1.0",
     "electron-builder": "^22.6.0",
     "electron-packager": "^14.2.1",
     "electron-process-manager": "^0.7.1",
